@@ -17,23 +17,22 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php'))
+if (file_exists(dirname(dirname(__DIR__)) . '/defines.php'))
 {
-	require_once dirname(__DIR__) . '/defines.php';
-}
-
-if (!defined('JPATH_BASE'))
-{
-	define('JPATH_BASE', dirname(__DIR__));
+	require_once dirname(dirname(__DIR__)) . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
 {
+	define('JPATH_BASE', dirname(dirname(__DIR__)));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.php';
+
+// Bootstrap CMS libraries.
+require_once JPATH_LIBRARIES . '/cms.php';
 
 
 /**
@@ -78,7 +77,7 @@ class TakeOffline extends JApplicationCli
 				}
 				else
 				{
-					JFile::Write($configfile, &$newconfig);
+					JFile::Write($configfile, $newconfig);
 					$this->out('Site is offline');
 				}
 			}

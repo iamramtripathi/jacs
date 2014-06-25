@@ -18,3 +18,13 @@ server3=(
 	'username@server3domain.com' 
 	'joomla_root/libraries/scripts'
 );
+
+test=(
+	'googles2@iamramtripathi.in' 
+	'httpdocs/libraries/scripts'
+);
+
+localhost=(
+	'ram@127.0.0.1' 
+	'/var/www/joomla-cms/libraries/scripts'
+);

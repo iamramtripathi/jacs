@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 SERVER_DIR=`dirname $0`
 
@@ -8,11 +8,13 @@ while getopts s:a:g: option
 	do
         case "${option}"
         in
-        	s) SITE=${OPTARG};;
-                a) ACTION=${OPTARG};;
-                g) GROUP=${OPTARG};;
+            s) SITE=${OPTARG};;
+            a) ACTION=${OPTARG};;
+            g) GROUP=${OPTARG};;
         esac
 done
+
+args=$@;
 
 process_server_action () 
 {
@@ -27,7 +29,7 @@ process_server_action ()
                 if [ $ACTION ]; 
                         then
                         ssh $SERVER_NAME '
-                        php '$SERVER_PATH'/'$ACTION'.php;
+                        php '$SERVER_PATH'/'$ACTION'.php '$args';
                         exit;'
                 else
                         echo 'Please specify an existing action';
