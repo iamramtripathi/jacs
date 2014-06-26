@@ -51,6 +51,13 @@ class ToggleExtension extends JApplicationCli
 
 		// Get the Extension ID from argument
 		$id	= $this->input->get('i', null, 'STRING');
+
+		if (!$id)
+		{
+			$this->out("Enter the extension ID...");
+			$id = $this->in();
+		}
+
 		$db  = JFactory::getDbo();
 
 		// Get the extensions from the database.

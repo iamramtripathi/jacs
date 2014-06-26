@@ -49,11 +49,18 @@ class ToggleExtension extends JApplicationCli
 	public function doExecute()
 	{
 
-		// Get the Extension ID from argument
+		// Get the Article ID from argument
 		$id	= $this->input->get('i', null, 'STRING');
+
+		if (!$id)
+		{
+			$this->out("Enter article ID...");
+			$id = $this->in();
+		}
+
 		$db  = JFactory::getDbo();
 
-		// Get the extensions from the database.
+		// Get the articles from the database.
 		$query = $db->getQuery(true)
 			->select('state')
 			->from('#__content')
