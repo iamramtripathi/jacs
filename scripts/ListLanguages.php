@@ -28,11 +28,11 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
+// Get the legacy code
+require_once JPATH_LIBRARIES . '/import.legacy.php';
+
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.php';
-
-// Get the legacy libraries
-require_once JPATH_LIBRARIES . '/import.legacy.php';
 
 // Bootstrap CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
@@ -44,27 +44,22 @@ require_once JPATH_LIBRARIES . '/cms.php';
  *
  * @since    1.0
  */
-class ToggleExtension extends JApplicationCli
+class ListLanguages extends JApplicationCli
 {
+
 	public function doExecute()
 	{
+		$db   = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		// Get the Article ID from argument
-		$id	= $this->input->get('i', null, 'STRING');
+		// Select the required fields from the updates table
+		$query->select('update_id, name, version')
 
-		if (!$id)
-		{
-			$this->out("Enter article ID...");
-			$id = $this->in();
-		}
+			->from('#__updates');
 
-		$db  = JFactory::getDbo();
-
-		// Get the articles from the database.
-		$query = $db->getQuery(true)
-			->select('state')
-			->from('#__content')
-			->where($db->quoteName('id') . ' = ' . $id);
+		// This Where clause will avoid to list languages already installed.
+		$query->where('extension_id = 0')
+			->order('name ASC');
 		$db->setQuery($query);
 
 		try
@@ -78,35 +73,27 @@ class ToggleExtension extends JApplicationCli
 
 		if (empty($result))
 		{
-			$this->out('No article was found having the ID ' . $id);
+			$this->out('Some error occurred while retrieving the languages');
 		}
 		else
 		{
-			$obj = $result[0];
-			$state = $obj->state;
+			echo <<<ENDWARNING
+===========================================================
+ENDWARNING;
+			printf("\n");
+			printf("%-10s %-40s %-10s\n","ID", "Name", "Version");
+			echo <<<ENDWARNING
+===========================================================
+ENDWARNING;
 
-			if ($state == 0)
+			printf("\n");
+
+			foreach ($result as $item)
 			{
-				$newState = 1;
-				$message = "The article with ID " . $id . " was published.";
+				printf("%-10s %-40s %-10s\n",$item->update_id, $item->name, $item->version);
 			}
-			else
-			{
-				$newState = 0;
-				$message = "The article with ID " . $id . " was unpublished.";
-			}
-
-			$object = new stdClass();
-
-			$object->id = $id;
-			$object->state = $newState;
-
-			JFactory::getDbo()->updateObject('#__content', $object, 'id');
-
-			$this->out($message);
-
 		}
 	}
 }
 
-JApplicationCli::getInstance('ToggleExtension')->execute();
+JApplicationCli::getInstance('ListLanguages')->execute();
