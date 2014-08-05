@@ -28,50 +28,40 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
+// Get the legacy code
+require_once JPATH_LIBRARIES . '/import.legacy.php';
+
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.php';
 
 // Bootstrap CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Import namespaced Framework classes
-use Joomla\Application\Cli\Output\Stdout;
-use Joomla\Application\Cli\Output\Processor\ColorProcessor;
-
 /**
- * Get the version number
+ * Clear cache all data
  *
  * @package  Joomla.Shell
  *
  * @since    1.0
  */
-class VersionInfo extends JApplicationCli
+class ClearCache extends JApplicationCli
 {
 	/**
-	 * Class constructor
+	 * Entry point for the script
 	 *
-	 * @since   1.0
+	 * @return  void
+	 *
+	 * @since   2.5
 	 */
-	public function __construct()
-	{
-		parent::__construct();
-
-		/*
-		 * From here we're going to highlight a new CMS 3.3 feature - use of the Framework's CliOutput object
-		 * to display data in different colors
-		 */
-
-		// We're going to use a Stdout object for output and inject the ColorProcessor object into it to use colored output
-		$output = new Stdout;
-		$output->setProcessor(new ColorProcessor);
-
-		$this->setOutput($output);
-	}
-
 	public function doExecute()
 	{
-		$this->out("<info>The Joomla! version installed on the specified server is: " . JVERSION . "</info>");
+		$cache = JFactory::getCache();
+
+		$cache->clean();
+		$this->out('Cache Cleared');
+		$this->out();
+
 	}
 }
 
-JApplicationCli::getInstance('VersionInfo')->execute();
+JApplicationCli::getInstance('ClearCache')->execute();

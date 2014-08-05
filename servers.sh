@@ -28,3 +28,8 @@ localhost=(
 	'ram@127.0.0.1' 
 	'/var/www/joomla-cms/libraries/scripts'
 );
+
+matt=(
+	'shared@servebra.in' 
+	'/public_html/libraries/scripts'
+);

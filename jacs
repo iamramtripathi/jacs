@@ -14,9 +14,6 @@ while getopts s:a:g: option
         esac
 done
 
-shift 3;
-
-echo $@
 args=$@;
 
 process_server_action () 
