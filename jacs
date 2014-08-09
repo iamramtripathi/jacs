@@ -4,16 +4,28 @@ SERVER_DIR=`dirname $0`
 
 source $SERVER_DIR/servers.sh
 
-while getopts s:a:g: option
-	do
-        case "${option}"
-        in
-            s) SITE=${OPTARG};;
-            a) ACTION=${OPTARG};;
-            g) GROUP=${OPTARG};;
-        esac
+for (( n = 1 ; n <= ${#@} ; n++ ))
+do
+	eval "i=(\${$n})";
+	if [ "$i" = "-s" ] 
+	then
+		m=$((n + 1));
+		eval "i=(\${$m})";
+		SITE=$i;
+	elif [ "$i" = "-g" ] 
+	then
+		m=$((n + 1));
+		eval "i=(\${$m})";
+		GROUP=$i;
+	elif [ "$i" = "-a" ] 
+	then
+		m=$((n + 1));
+		eval "i=(\${$m})";
+		ACTION=$i;
+	fi		
 done
 
+shift 4;
 args=$@;
 
 process_server_action () 
