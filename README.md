@@ -63,3 +63,80 @@ You can take an entire group of sites offline by entering the following command 
         jacs -g groupA -a TakeOffline
         
 Other actions can be called just as easily. It is important to note that the action name is the same as the name of the script file located in the script directory, minus the file extension.
+
+----------
+
+**Note:** 
+
+ 1. The order in which the arguments are passed should be strictly
+    followed i.e. the first argument should always be the *group* (-g) or the
+    *site* (-s) name followed by the *action* (-a) argument.
+
+ 2. Apart from the standard arguments, many other arguments can be
+    passed depending upon the requirement of the script. Arguments
+    should be provided in a single line. If any argument is missing the
+    script will prompt the user to input the missing argument.
+
+ 3. The script take in 2 types of arguments i.e. long arguments (--argument) and short arguments (-a).
+
+----------
+
+####AddUser
+This script can be used for adding new a new user. This script takes in 5 arguments.
+
+ 1. -u : Username
+ 2. -n : Name
+ 3. -e : Email
+ 4. -p : Password
+ 5. -g : Groups (Comma separated list of group IDs)
+
+####BackupSite
+This script takes in no argument.
+
+####ClearCache
+This script takes in no argument.
+
+####CreateFolder
+This script takes in the relative path of the folder where a new folder is to be created. The path should be relative to the Joomla root.
+
+ 1. -p : Path (e.g /libraries/scripts/)
+
+####CreateThumbnails
+This script can be used to generate thumbnails of all the images inside a particular folder under the Joomla directory tree. It takes in 2 arguments.
+
+ 1. -p : Path of the folder relative to the Joomla root (e.g /relative/path/to/folder/)
+ 2. -d : Dimension of the thumbnails (e.g 150x150)
+
+####DatabaseDump
+This script takes the mysql dump of the entire Joomla database and saves it to the specified directory. It takes in 1 argument.
+
+ 1. -p : Path of the folder relative to the Joomla root (e.g /relative/path/to/folder/)
+
+####DeleteExtensions
+This script completely removes one or more extensions. It takes in 1 argument.
+
+ 1. -i : Comma separated list if Extension IDs (e.g 32,45,66)
+
+####DeleteFiles
+This script is a command line cron job to attempt to remove files that should have been deleted at update. It takes in no argument.
+
+####DeleteFolder
+This script deletes a particular folder under the Joomla directory tree. It takes in 1 argument.
+
+ 1. -p : Path of the folder relative to the Joomla root (e.g /relative/path/to/folder/)
+
+####DeleteUser
+This script deletes a particular user. It takes in 1 argument.
+
+ 1. -i : ID of the user to be deleted.
+
+####EditConfig
+This script can be used for editing the entire configuration.php file. There are no default arguments that this script takes in. Instead, any argument can be provided to the script given the argument is a *long argument* and it is also a congiguration setting.
+
+For e.g
+
+ 1. --host : For modifying the *host* configuration setting (e.g jacs -s sitename -a action --host hostname)
+ 2. --user : Can be used to modify the databse username setting.
+ 3. --editor : Can be used for changing the editor.
+
+Similarly any type of argument can be provided as long as it is also a configuration setting.
